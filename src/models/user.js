@@ -49,6 +49,9 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+// Specifying schema options that is an object
+}, {
+    timestamps: true
 })
 
 // Virtual Property: This is a relationship between 2 entities, in this case: user <--> tasks
