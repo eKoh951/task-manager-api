@@ -26,8 +26,12 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 // GET /tasks?completed=true
+// GET /tasks?limit=10&skip=10
 router.get('/tasks', auth, async (req, res) => {
     const match = {}
+    // parseInt() is a javascript function that returns a number from a string
+    const limit = parseInt(req.query.limit) || 10
+    const skip = parseInt(req.query.skip) || 0
 
     if(req.query.completed){
         match.completed = req.query.completed === 'true'
@@ -36,7 +40,11 @@ router.get('/tasks', auth, async (req, res) => {
         //tasks = await Task.find({ owner: req.user._id })
         await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                limit,
+                skip
+            }
         }).execPopulate()
         res.send(req.user.tasks)
     }
