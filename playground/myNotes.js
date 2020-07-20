@@ -139,3 +139,22 @@ const ObjectID = mongodb.ObjectID
         const isMatch = await bcrypt.compare('Red12345', hashedPassword)
         console.log(isMatch)
     }
+
+    // Using populate
+    const main = async() => {
+        // const task = await Task.findById('5f0b7680b7e405a4c0a4b9e2')
+        // console.log(task)
+        // console.log(task.owner)
+        // // we want to populate the owner property from the task (task.owner)
+        // // this currently has the reference, which is the user's ObjectID
+        // // then after we have the reference set, we proceed to populate task.owner
+        // // by triggering execPopulate(), then the User document is populated in task.owner
+        // await task.populate('owner').execPopulate()
+        // console.log(task.owner)
+    
+        // const user = await User.findById('5f0b73b2b403d55f5835149c')
+        // await user.populate('tasks').execPopulate()
+        // console.log(user.tasks)
+    }
+    
+    main()

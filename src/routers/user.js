@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const router = new express.Router()
@@ -122,6 +123,22 @@ router.delete('/users/me', auth, async (req, res) => {
     catch (error) {
         res.status(500).send()
     }
+})
+const upload = multer({
+    dest: 'avatars',
+    limits: {
+        fileSize: 1 * 1024 * 1024
+    },
+    fileFilter(req, file, cb){
+        const regex = /\.(jpg|jpeg|png)$/
+        if(!file.originalname.match(regex)){
+            return cb(new Error('Please upload a valid file'))
+        }
+        cb(undefined, true)
+    }
+})
+router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+    res.send()
 })
 
 // // get user by id using :id to specify a route parameter: parts of a url to capture dynamic values
