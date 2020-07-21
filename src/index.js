@@ -24,8 +24,11 @@ const upload = multer({
 		// cb(un)
 	}
 })
+
 app.post('/upload', upload.single('upload'), (req, res) => {
 	res.send()
+}, (error, req, res, next) => {
+	res.status(400).send( { error: error.message} )
 })
 
 // Parses json data into object, so we are able to read it

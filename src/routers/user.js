@@ -132,13 +132,15 @@ const upload = multer({
     fileFilter(req, file, cb){
         const regex = /\.(jpg|jpeg|png)$/
         if(!file.originalname.match(regex)){
-            return cb(new Error('Please upload a valid file'))
+            return cb(new Error('Please upload an image'))
         }
         cb(undefined, true)
     }
 })
-router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+router.post('/users/me/avatar', auth, upload.single('avatar'), (req, res) => {
     res.send()
+}, (error, req, res, next) => {
+    res.status(500).send({error: error.message})
 })
 
 // // get user by id using :id to specify a route parameter: parts of a url to capture dynamic values
