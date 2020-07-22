@@ -68,19 +68,24 @@ userSchema.virtual('tasks', {
     foreignField: 'owner'
 })
 
-// res.send({user, token})
-// We can tell we are accessing to the user from "this" object, because we implicitly say that from "userSchema" at the
-//   beginning of this call so we don't bother about what happens with token
-// The res.send method, ALWAYS triggers the toJSON method to stringify (JSON.stringify) the data, just before that,
-//   we can manipulate the data as the following
+// The res.send method, ALWAYS triggers the toJSON method to stringify (JSON.stringify) the JS Object,
+//   just before that (from this MiddleWare), we can manipulate the data (the "this" binding)
 userSchema.methods.toJSON = function () {
-    user = this
-    // Get only the raw data from the user, getting rid of the stuff like .save() method that mongoose modelling gives
-    //   so we can modify the data to send
-    userObject = user.toObject()
+    const user = this
 
+    // Get only the raw data from the user, getting rid of the stuff like .save() method that
+    //   mongoose modelling gives, so we can modify the data to send
+    const userObject = user.toObject()
+
+    // We delete the password and token information so we DO NOT COMPROMISE this sensitive data
     delete userObject.password
-    delete userObject.tokens    
+    delete userObject.tokens
+
+		// We also don't want to response with the user's avatar data, so we DO NOT SLOW the json response
+		//   experiment:
+		//		with:			380 bytes
+		//		without:	290 kilo bytes
+    delete userObject.avatar
 
     return userObject
 }
