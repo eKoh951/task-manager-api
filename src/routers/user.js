@@ -3,13 +3,16 @@ const multer = require('multer')
 const sharp = require('sharp')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+// ES6 Destructuring
+const { sendWelcomeEmail, sendGoodbyeEmail } = require('../emails/account')
 const router = new express.Router()
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
 
     try {
-        //await user.save()
+        await user.save()
+				sendWelcomeEmail(user.email, user.name)
         // User gets saved within the generateAuthToken method
         const token = await user.generateAuthToken()
         res.status(201).send({ user, token })
@@ -118,7 +121,8 @@ router.delete('/users/me', auth, async (req, res) => {
         // const user = await User.findByIdAndDelete(req.user._id)
         // if(!user) return res.status(404).send()
         const user = req.user
-        await user.remove()
+				await user.remove()
+				sendGoodbyeEmail(user.email, user.name)
         res.send(user)
     }
     catch (error) {
