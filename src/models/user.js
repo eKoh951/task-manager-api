@@ -93,7 +93,7 @@ userSchema.methods.toJSON = function () {
 // methods: an instance method, accessible from an instance of a model: an object (e.g. when we create a unique user)
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'ilikemiriam')
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.TOKEN_SECRET_WORD)
 
     // .concat method on arrays, so we add new tokens but keeping the existing tokens
     user.tokens = user.tokens.concat({ token })

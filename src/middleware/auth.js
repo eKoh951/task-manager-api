@@ -7,7 +7,7 @@ const auth = async(req, res, next) => {
         // replace is a string method that "replaces" something (1st arg) with something else (2nd arg)
         const token = req.header('Authorization').replace('Bearer ', '')
         // Validate token
-        const decoded = jwt.verify(token, 'ilikemiriam')
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET_WORD)
         // console.log(token)
         // console.log(decoded)
         // Find the user id from the requester since _id property is embeded in the token

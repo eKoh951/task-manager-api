@@ -6,7 +6,7 @@ const log = console.log
 
 // Create an express application
 const app =  express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 // Parses json data into object, so we are able to read it
 app.use(express.json())

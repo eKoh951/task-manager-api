@@ -1,7 +1,7 @@
 {
   "name": "task-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "Currently the API is on develpment, later on more documentaion will be released.",
   "main": "index.js",
   "dependencies": {
     "@sendgrid/mail": "^7.2.1",
@@ -15,13 +15,22 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "env-cmd mocha -R spec",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "./node_modules/.bin/env-cmd -f ./config/dev.env nodemon src/index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eKoh951/task-manager-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eKoh951/task-manager-api/issues"
+  },
+  "homepage": "https://github.com/eKoh951/task-manager-api#readme"
 }
