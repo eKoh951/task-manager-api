@@ -116,6 +116,7 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 })
 
+// Delete user
 router.delete('/users/me', auth, async (req, res) => {
     try {
         // const user = await User.findByIdAndDelete(req.user._id)
