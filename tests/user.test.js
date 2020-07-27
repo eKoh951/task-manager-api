@@ -1,29 +1,11 @@
 const request = require('supertest')
-const jwt = require('jsonwebtoken')
-const mongoose = require('mongoose')
 const app = require('../src/app')
 const User = require('../src/models/user')
-
-// Creating a new ObjectId
-const userOneId = new mongoose.Types.ObjectId()
-
-const userOne = {
-	_id: userOneId,
-	name: 'Gemma',
-	email: 'gordis@porahi.com',
-	password: 'miau123',
-	tokens: [{
-		token: jwt.sign({ _id: userOneId}, process.env.TOKEN_SECRET_WORD)
-	}]
-}
+const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 
 // Global function
 // Runs just before every test
-beforeEach(async () => {
-	//Delete all users
-	await User.deleteMany()
-	await new User(userOne).save()
-})
+beforeEach(setupDatabase)
 
 // test function comes from Jest
 test('Should signup a new user', async () => {
